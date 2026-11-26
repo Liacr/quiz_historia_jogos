@@ -18,3 +18,15 @@ String lerLinha(String mensagem) {
     print('Você não digitou nada. Tente novamente!');
   }
 }
+
+String lerAlternativa() {
+  const validas = {'A', 'B', 'C', 'D'};
+
+  while (true) {
+    final resposta = lerLinha('Sua resposta (A, B, C ou D): ').toUpperCase();
+    if (validas.contains(resposta)) {
+      return resposta;
+    }
+    print('Opção inválida! Digite apenas A, B, C ou D.');
+  }
+}
