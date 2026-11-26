@@ -1,12 +1,36 @@
 import 'dart:io';
 
+const _reset = '\x1B[0m';
+const _verde = '\x1B[32m';
+const _vermelho = '\x1B[31m';
+const _ciano = '\x1B[36m';
+const _amarelo = '\x1B[33m';
+
+void imprimirTitulo(String titulo) {
+  print('\n$_ciano========================================$_reset');
+  print('$_ciano  $titulo$_reset');
+  print('$_ciano========================================$_reset');
+}
+
+void imprimirAcerto(String mensagem) {
+  print('$_verde$mensagem$_reset');
+}
+
+void imprimirErro(String mensagem) {
+  print('$_vermelho$mensagem$_reset');
+}
+
+void imprimirAviso(String mensagem) {
+  print('$_amarelo$mensagem$_reset');
+}
+
 String lerLinha(String mensagem) {
   while (true) {
     stdout.write(mensagem);
     final entrada = stdin.readLineSync();
 
     if (entrada == null) {
-      print('\nEntrada encerrada.');
+      imprimirAviso('\nEntrada encerrada.');
       return '';
     }
 
@@ -15,7 +39,7 @@ String lerLinha(String mensagem) {
       return limpa;
     }
 
-    print('Você não digitou nada. Tente novamente!');
+    imprimirAviso('Você não digitou nada. Tente novamente!');
   }
 }
 
@@ -27,6 +51,15 @@ String lerAlternativa() {
     if (validas.contains(resposta)) {
       return resposta;
     }
-    print('Opção inválida! Digite apenas A, B, C ou D.');
+    imprimirAviso('Opção inválida! Digite apenas A, B, C ou D.');
+  }
+}
+
+bool lerConfirmacao(String mensagem) {
+  while (true) {
+    final resposta = lerLinha(mensagem).toLowerCase();
+    if (resposta == 's' || resposta == 'sim') return true;
+    if (resposta == 'n' || resposta == 'nao' || resposta == 'não') return false;
+    imprimirAviso('Digite "s" para sim ou "n" para não.');
   }
 }
